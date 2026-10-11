@@ -88,7 +88,7 @@ npm run android:key
 npm run android:build
 ```
 
-Review the SDK license prompts during setup. Alternatively, install JDK 21 and Android SDK Platform 36, Build Tools 36.0.0, and Platform Tools yourself, then set `JAVA_HOME` and `ANDROID_HOME`. `npm run android:sync` copies updated web assets; `npx cap open android` opens Android Studio.
+Review the SDK license prompts during setup. Alternatively, install JDK 21 and Android SDK Platform 36, Build Tools 36.0.0, and Platform Tools yourself, then set `JAVA_HOME` and `ANDROID_HOME`. Gradle may also install Build Tools 35 automatically. `npm run android:sync` copies updated web assets; `npx cap open android` opens Android Studio. For the Windows Java loopback error and first-build delays, see [build troubleshooting](docs/BUILD-TROUBLESHOOTING.md).
 
 The release build creates `release/android/Taxi-Shift-1.0.0.apk` for direct installation and `release/android/Taxi-Shift-1.0.0.aab` for Play Console. **Back up the entire `.signing/` folder securely.** It contains your upload key and password; never commit, publish, or serve it. The key-generation script preserves existing keys. Restore the same signing folder on another build machine for updates. Increase Android `versionCode` with every Play upload and update version names/output filenames together.
 
