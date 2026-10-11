@@ -1,0 +1,8 @@
+{
+  "appId": "com.riviproj.taxishift",
+  "appName": "Taxi Shift",
+  "webDir": "dist",
+  "backgroundColor": "#203134",
+  "android": {"backgroundColor":"#203134","allowMixedContent":false,"webContentsDebuggingEnabled":false,"minWebViewVersion":100},
+  "server": {"androidScheme":"https"}
+}

@@ -1,0 +1,59 @@
+/* Keep the road in the middle and driving controls within each thumb's reach. */
+.mobile-menu-button,.touch-help{display:none}
+body.mobile-mode{--edge-left:max(10px,env(safe-area-inset-left));--edge-right:max(10px,env(safe-area-inset-right));--edge-top:max(8px,env(safe-area-inset-top));--edge-bottom:max(12px,env(safe-area-inset-bottom));overscroll-behavior:none}
+.mobile-mode #world{touch-action:none}
+.mobile-mode .topbar{top:var(--edge-top);left:var(--edge-left);right:var(--edge-right);height:56px;padding:0 8px;gap:4px}
+.mobile-mode .wordmark{font-size:21px;gap:6px}.mobile-mode .brand-icon{width:30px;height:34px;line-height:32px;font-size:23px}.mobile-mode .wordmark small{font-size:8px}
+.mobile-mode .topbar nav{gap:0}.mobile-mode .nav-button{min-height:44px;padding:8px 12px;font-size:12px}.mobile-mode .key,.mobile-mode .wallet-label,.mobile-mode #help-button,.mobile-mode #sound-button{display:none}
+.mobile-mode .wallet{font-size:13px;padding:0 4px;border:0;gap:4px}.mobile-mode .wallet:before{content:'$'}.mobile-mode .coin{display:none}
+.mobile-mode #pause-button,.mobile-mode .mobile-menu-button{display:block;flex-shrink:0;width:44px;height:44px;border-radius:9px;font-size:20px;background:transparent}
+.mobile-mode .control-hints,.mobile-mode .help-keys{display:none}.mobile-mode .touch-help{display:block}
+.mobile-mode .mobile-controls{display:flex;position:fixed;bottom:var(--edge-bottom);left:var(--edge-left);right:var(--edge-right);justify-content:space-between;gap:10px;z-index:10;pointer-events:none}
+.mobile-mode .mobile-controls>div{display:flex;gap:8px;align-items:end;pointer-events:auto}
+.mobile-mode .mobile-controls button{display:flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:66px;border:2px solid #fff9e8;border-radius:14px;background:#fafaf4df;font-size:24px;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;box-shadow:0 3px 0 #20313445}
+.mobile-mode .mobile-controls small{display:block;font-size:10px;font-weight:700;margin-top:3px}
+.mobile-mode .mobile-controls .mobile-gas{height:86px;background:var(--yellow)}
+.mobile-mode .mobile-controls .mobile-brake{width:52px;height:52px;font-size:12px;background:#344e60;color:#fff}
+.mobile-mode .mobile-controls .mobile-boost{width:52px;height:52px;font-size:18px}
+.mobile-mode .mobile-controls .pressed{background:#eeb338;color:var(--ink);transform:translateY(2px);box-shadow:none}
+.mobile-mode.menu-open .mobile-controls,.mobile-mode.game-paused .mobile-controls{display:none}
+.mobile-mode .camera-controls{top:calc(var(--edge-top) + 66px);right:var(--edge-right);gap:5px}
+.mobile-mode .camera-controls button{min-height:44px;min-width:44px;padding:8px;font-size:10px}
+.mobile-mode .location-pill{display:none}
+.mobile-mode .job-panel{top:calc(var(--edge-top) + 66px);left:var(--edge-left);width:190px;padding:12px}
+.mobile-mode .job-panel h1{font-size:23px;margin:6px 0 8px}.mobile-mode .job-panel p,.mobile-mode .next-event{display:none}
+.mobile-mode .fare-details{margin-bottom:8px;padding-top:8px}.mobile-mode .primary-button{min-height:44px}
+.mobile-mode .map-panel{left:var(--edge-left);bottom:calc(var(--edge-bottom) + 110px);width:140px;height:140px;padding:6px}
+.mobile-mode .map-panel #minimap{height:100%}.mobile-mode .map-legend{display:none}
+.mobile-mode .speedometer{right:var(--edge-right);bottom:calc(var(--edge-bottom) + 110px)}.mobile-mode .speed-ring{width:78px;height:78px;border-width:4px}.mobile-mode .speed-ring>span{font-size:36px}.mobile-mode .speed-ring small{font-size:8px}.mobile-mode .gear{display:none}
+.mobile-mode .drift-meter{right:var(--edge-right);bottom:calc(var(--edge-bottom) + 201px);padding:6px 10px}.mobile-mode .drift-meter strong{font-size:23px}
+.mobile-mode .welcome{top:50%;left:50%;right:auto;transform:translate(-50%,-50%);width:min(310px,calc(100vw - 30px));padding:24px;max-height:calc(100dvh - 90px);overflow:auto}.mobile-mode .welcome h2{font-size:35px}
+.mobile-mode:not(.game-started) .job-panel{visibility:hidden}
+.mobile-mode .overlay{inset:calc(var(--edge-top) + 66px) var(--edge-right) var(--edge-bottom) var(--edge-left);padding:20px;overscroll-behavior:contain}
+.mobile-mode .overlay-heading{margin-bottom:16px}.mobile-mode .overlay h2{font-size:32px}
+.mobile-mode .close-button{width:44px;height:44px}.mobile-mode .car-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.mobile-mode .customization{grid-template-columns:1fr 1fr}.mobile-mode .garage-note{display:none}
+.mobile-mode .car-card button,.mobile-mode .option-buttons button{min-height:44px}.mobile-mode .swatches{flex-wrap:wrap;gap:10px}.mobile-mode .swatch{width:38px;height:38px}.mobile-mode .toggle-label{min-height:44px}
+.mobile-mode .dialog{max-height:calc(100dvh - 32px);padding:24px}.mobile-mode .dialog h2{font-size:32px}
+.mobile-menu-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.mobile-menu-actions button{min-height:48px;border-radius:8px;background:#e3eae5;font-size:12px}
+.mobile-mode .turn-guidance{top:calc(var(--edge-top) + 117px);left:auto;right:var(--edge-right);transform:none;width:145px;min-width:0;padding:8px;gap:7px}.mobile-mode .turn-guidance strong{font-size:11px}.mobile-mode .turn-guidance small{font-size:9px}.mobile-mode .turn-guidance>span{font-size:25px}
+body.mobile-mode.racing #race-hud{top:calc(var(--edge-top) + 66px);left:var(--edge-left);right:auto;max-width:calc(100vw - 20px);height:44px;padding:5px 8px;gap:8px}
+body.mobile-mode.racing #race-hud>strong{font-size:22px;min-width:52px}body.mobile-mode.racing #race-hud button{min-height:44px;margin:0}
+body.mobile-mode.racing .turn-guidance{top:calc(var(--edge-top) + 117px);left:var(--edge-left);right:auto;width:150px}
+body.mobile-mode.racing .camera-controls{top:calc(var(--edge-top) + 117px)}
+.mobile-mode #toast{bottom:calc(var(--edge-bottom) + 104px)}
+@media(max-width:500px){
+  .mobile-mode .wordmark>span:last-child{display:none}.mobile-mode .nav-button{padding:8px 9px;font-size:11px}
+  .mobile-mode .mobile-controls>div{gap:5px}.mobile-mode .mobile-controls button{width:48px;height:60px}.mobile-mode .mobile-controls .mobile-gas{height:80px}.mobile-mode .mobile-controls .mobile-brake,.mobile-mode .mobile-controls .mobile-boost{width:44px;height:48px}
+  .mobile-mode .job-panel{width:170px}.mobile-mode .fare-details{font-size:10px}.mobile-mode .fare-details small{font-size:8px}
+  .mobile-mode .customization{grid-template-columns:1fr}.mobile-mode .car-card{padding:10px}.mobile-mode .car-art{height:70px}
+  .mobile-mode .event-cards{grid-template-columns:1fr}.mobile-mode .event-card{display:block}.mobile-mode .event-art{height:85px}
+}
+@media(max-height:500px){
+  .mobile-mode .topbar{height:52px}.mobile-mode .job-panel{top:calc(var(--edge-top) + 60px);width:190px;padding:9px}.mobile-mode .job-panel .fare-details,.mobile-mode .shift-label{display:none}.mobile-mode .job-panel h1{font-size:19px}
+  .mobile-mode .map-panel{width:102px;height:102px;bottom:calc(var(--edge-bottom) + 88px)}.mobile-mode .speedometer{bottom:calc(var(--edge-bottom) + 88px)}.mobile-mode .drift-meter{bottom:calc(var(--edge-bottom) + 172px)}
+  .mobile-mode .mobile-controls button{height:54px}.mobile-mode .mobile-controls .mobile-gas{height:68px}
+  .mobile-mode .welcome{padding:17px;width:290px}.mobile-mode .welcome h2{font-size:29px;margin:10px 0}.mobile-mode .welcome p{margin-bottom:10px}
+  .mobile-mode .car-cards{grid-template-columns:repeat(4,minmax(0,1fr))}
+  body.mobile-mode.racing .camera-controls{top:calc(var(--edge-top) + 66px)}
+}
+@media(max-width:360px){.mobile-mode .wordmark,.mobile-mode .wallet{display:none}.mobile-mode .mobile-controls button{width:44px}.mobile-mode .mobile-controls{gap:6px}.mobile-mode .job-panel{width:155px}.mobile-mode .camera-controls button{font-size:9px}}

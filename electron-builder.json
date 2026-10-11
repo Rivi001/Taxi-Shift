@@ -1,0 +1,11 @@
+{
+  "appId":"com.riviproj.taxishift",
+  "productName":"Taxi Shift",
+  "asar":true,
+  "directories":{"output":"release/windows","buildResources":"store-assets"},
+  "files":["desktop/main.cjs","dist/**/*","store-assets/icon-512.png","package.json"],
+  "extraMetadata":{"main":"desktop/main.cjs"},
+  "win":{"target":[{"target":"nsis","arch":["x64"]},{"target":"zip","arch":["x64"]}],"icon":"store-assets/icon-512.png","signAndEditExecutable":false},
+  "nsis":{"oneClick":false,"perMachine":false,"allowToChangeInstallationDirectory":true,"createDesktopShortcut":true,"artifactName":"Taxi-Shift-${version}-Windows-Setup.${ext}"},
+  "artifactName":"Taxi-Shift-${version}-${os}-${arch}.${ext}"
+}

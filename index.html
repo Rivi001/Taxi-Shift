@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#172629" />
+  <title>Taxi Shift — take the scenic route</title>
+  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./mobile.css" />
+  <link rel="stylesheet" href="./landscape.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <style>[hidden]{display:none!important}#loading,#fatal{position:fixed;inset:0;z-index:110;background:#e7eee2;color:#203134;font-family:Arial,sans-serif}#fatal{padding:12vh 8vw;overflow:auto}#fatal a{display:inline-block;padding:14px;color:#203134}#fatal-message{white-space:pre-wrap;overflow-wrap:anywhere}</style>
+</head>
+<body>
+  <canvas id="world" aria-label="3D taxi driving game"></canvas>
+  <div id="loading"><span class="load-icon">T</span><h1>Taxi Shift</h1><p>Warming up the engine…</p></div>
+  <header class="topbar">
+    <a class="wordmark" href="./" aria-label="Taxi Shift home"><span class="brand-icon">T<span></span></span><span>taxi<span class="brand-light">shift</span><small>Sunbay City</small></span></a>
+    <nav aria-label="Game menu">
+      <button class="nav-button active" id="drive-tab">Drive</button>
+      <button class="nav-button" id="garage-tab">Garage <span class="key">G</span></button>
+      <button class="nav-button" id="races-tab">Races</button>
+    </nav>
+    <div class="wallet"><span class="coin">$</span><span id="balance">0</span><span class="wallet-label">earned</span></div>
+    <button class="icon-button" id="help-button" aria-label="How to play">?</button>
+    <button class="icon-button" id="sound-button" aria-label="Enable sound">♫</button>
+    <button class="icon-button" id="pause-button" aria-label="Pause game">Ⅱ</button>
+    <button class="mobile-menu-button" id="mobile-menu-button" aria-label="Open game menu" aria-expanded="false" aria-controls="mobile-menu">☰</button>
+  </header>
+  <main id="drive-ui">
+    <aside class="job-panel">
+      <div class="shift-label"><span class="live-dot"></span> YOUR SHIFT <span id="completed-count">0 trips</span></div>
+      <h1 id="job-title">The city is yours.</h1>
+      <p id="job-description">A passenger is waiting nearby. Take your first fare and get rolling.</p>
+      <div class="fare-details"><img id="passenger-avatar" alt="Maya"><span id="job-person">Maya <small>Waiting at Market Square</small></span><strong id="fare-value">$120</strong></div>
+      <button class="primary-button" id="job-button">Accept fare <span>↗</span></button>
+      <div class="job-progress" id="job-progress" hidden><span id="job-stage">Drive to pickup</span><strong id="job-distance">120 m</strong><div class="progress-track"><span id="job-progress-bar"></span></div></div>
+      <div class="next-event"><span class="race-symbol">⚑</span><div><strong>Need a little more speed?</strong><small>Try the Sunbay Sprint.</small></div><button id="race-shortcut" aria-label="View race events">↗</button></div>
+    </aside>
+    <div class="location-pill"><span class="location-dot"></span><span id="district">Market district</span><span class="weather">☀ 24°</span></div>
+    <div id="target-label" class="target-label" hidden>Pickup <span>120 m</span></div>
+    <div class="camera-controls"><button id="camera-button"><span>▣</span> <span id="camera-name">Chase camera</span> <span class="key">C</span></button><button id="reset-button" title="Return to the nearest road (R)">↺</button></div>
+    <aside class="map-panel"><div class="map-title"><span>Sunbay City</span><span id="map-hint">Explore freely</span></div><canvas id="minimap" width="300" height="300" aria-label="Circular city radar showing your car, route, turns, and destination"></canvas><div class="map-legend"><span><i class="you"></i>You</span><span><i class="pickup"></i>Fare</span><span><i class="race"></i>Race</span></div></aside>
+    <div class="turn-guidance" id="turn-guidance" hidden><span id="turn-symbol">↑</span><div><strong id="turn-name">Keep straight</strong><small id="turn-distance">Next checkpoint ahead</small></div></div>
+    <div class="speedometer"><div class="speed-ring"><span id="speed">0</span><small>km/h</small><div class="boost-meter" id="boost-meter" role="meter" aria-label="Boost charge" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" title="Boost charge"><span id="boost-charge"></span></div></div><div class="gear"><span id="gear">N</span><small id="car-label">City Cab</small></div></div>
+    <div class="drift-meter" id="drift-meter" hidden><strong id="drift-score">0</strong><span>DRIFT</span></div>
+    <div class="control-hints"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Drive</span><span><kbd>Space</kbd> Drift</span><span><kbd>Shift</kbd> Boost</span></div>
+    <div class="mobile-controls" id="mobile-controls"><div><button data-control="left" aria-label="Steer left">◀</button><button data-control="right" aria-label="Steer right">▶</button></div><div><button class="mobile-brake" data-control="brake" aria-label="Handbrake / drift">Drift</button><button data-control="reverse" aria-label="Brake / reverse">▼</button><button class="mobile-gas" data-control="forward" aria-label="Accelerate">▲</button><button class="mobile-boost" data-control="boost" aria-label="Boost">⚡</button></div></div>
+    <div class="race-hud" id="race-hud" hidden><span id="race-checkpoint">Checkpoint 1 / 6</span><strong id="race-time">0:00.0</strong><small id="race-limit">Beat 90 seconds</small><button id="quit-race">End race</button></div>
+    <div class="welcome" id="welcome"><span class="welcome-tag">A little hustle. A lot of open road.</span><h2>Your next adventure<br>is a fare away.</h2><p>Pick up passengers. Make the city your own.</p><button class="primary-button" id="start-button">Let’s drive <span>↗</span></button><small id="welcome-controls">Keyboard or touch. Your call.</small></div>
+  </main>
+  <section class="overlay" id="garage" hidden aria-label="Car garage"><div class="overlay-heading"><div><span class="section-tag">YOUR GARAGE</span><h2>A ride that’s all you.</h2><p>Earn fares. Unlock your next set of wheels.</p></div><button class="close-button" data-close="garage" aria-label="Close garage">×</button></div><div id="car-cards" class="car-cards"></div><div class="customization"><div><h3>Fresh coat.</h3><p>Pick your signature color.</p><div class="swatches" id="swatches"></div></div><div><h3>Finishing touches.</h3><div class="option-buttons" id="wheel-options"><button data-wheel="classic">Classic wheels</button><button data-wheel="sport">Sport wheels</button></div><label class="toggle-label"><input type="checkbox" id="stripe-toggle"> Racing stripe</label></div><div class="garage-note">Make it yours.<br><small>Paint and wheel styles are on the house.</small></div></div></section>
+  <section class="overlay events-overlay" id="events" hidden aria-label="Race events"><div class="overlay-heading"><div><span class="section-tag">AFTER HOURS</span><h2>Trade fares for fast lanes.</h2><p>Checkpoint races through the streets of Sunbay.</p></div><button class="close-button" data-close="events" aria-label="Close races">×</button></div><div class="event-cards" id="event-cards"></div><p class="event-footnote">Drive through every glowing gate in order. Beat the target time to earn the prize.</p></section>
+  <section class="dialog-backdrop" id="help" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="help-title"><button class="close-button" data-close="help" aria-label="Close help">×</button><span class="section-tag">WELCOME TO SUNBAY</span><h2 id="help-title">A good day to drive.</h2><p>Accept a fare, follow the dotted route, and stop inside the glowing pickup zone. Take your passenger to the drop-off zone to get paid. Slow below 10 km/h to let them in or out.</p><div class="help-keys"><span><kbd>W / ↑</kbd> Accelerate</span><span><kbd>S / ↓</kbd> Brake / reverse</span><span><kbd>A D / ← →</kbd> Steer</span><span><kbd>Space</kbd> Handbrake / drift</span><span><kbd>Shift</kbd> Boost</span><span><kbd>C</kbd> Switch camera</span><span><kbd>R</kbd> Return to road</span><span><kbd>G</kbd> Garage</span><span><kbd>Esc / P</kbd> Pause</span></div><p>On mobile, use the on-screen pedals and steering buttons. Landscape gives you more room to drive. Progress saves automatically on this device.</p><button class="primary-button" data-close="help">Got it. Let’s go. <span>↗</span></button></div></section>
+  <section class="dialog-backdrop" id="paused" hidden><div class="dialog pause-dialog" role="dialog" aria-modal="true" aria-labelledby="pause-title"><span class="section-tag">TAKE A BREATHER</span><h2 id="pause-title">Parked for a moment.</h2><p>Your shift will be right here.</p><button class="primary-button" id="resume-button">Back to the road <span>↗</span></button></div></section>
+  <section class="dialog-backdrop" id="mobile-menu" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title"><button class="close-button" data-close="mobile-menu" aria-label="Close game menu">×</button><h2 id="mobile-menu-title">Pit stop</h2><p>Take a breather. Your drive is paused.</p><div class="mobile-menu-actions"><button id="mobile-help">How to play</button><button id="mobile-sound" aria-pressed="false">Sound off</button><button id="mobile-camera">Switch camera</button><button id="mobile-reset">Return to road</button><button id="mobile-fullscreen" hidden>Full screen</button></div><button class="primary-button" data-close="mobile-menu">Back to driving</button></div></section>
+  <section id="rotate-screen" role="dialog" aria-modal="true" aria-labelledby="rotate-title"><div><span aria-hidden="true">↻</span><h2 id="rotate-title">Turn your phone sideways</h2><p>Taxi Shift is played in landscape.<br>Your drive is paused until you rotate.</p></div></section>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="fatal" hidden><h2>The engine couldn’t start.</h2><p id="fatal-message"></p><button onclick="location.reload()">Try again</button><a href="./diagnostics.html">Check this phone</a></div>
+  <noscript><div style="position:fixed;inset:0;z-index:200;background:#e7eee2;padding:30px;font:18px Arial">JavaScript is disabled. Enable JavaScript for this site in Chrome to play Taxi Shift.</div></noscript>
+  <script>
+    (function(){
+      var done=false,timer;
+      function fail(message){if(done)return;clearTimeout(timer);document.getElementById('loading').hidden=true;document.getElementById('fatal').hidden=false;document.getElementById('fatal-message').textContent=message;}
+      window.taxiBoot={fail:fail,ready:function(){done=true;clearTimeout(timer);document.getElementById('fatal').hidden=true;}};
+      window.addEventListener('error',function(e){if(e.message)fail('The game could not start: '+e.message);});
+      timer=setTimeout(function(){fail('The game has not finished loading. Check this phone below to test graphics support and the connection, or tap Try again.');},45000);
+    })();
+  </script>
+  <script type="module" src="./src/boot.js"></script>
+</body>
+</html>

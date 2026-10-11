@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Taxi Shift phone check</title>
+<style>body{margin:0;background:#e7eee2;color:#203134;font:16px/1.5 Arial,sans-serif;padding:24px}main{max-width:620px;margin:auto}h1{font-size:28px}li{padding:10px 0;border-bottom:1px solid #c0cbc4}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 monospace;background:#fff;padding:16px;border-radius:8px}a,button{display:inline-block;background:#f8ce58;color:#203134;padding:14px 18px;border:0;border-radius:8px;font:inherit;text-decoration:none;margin:6px 6px 6px 0}.pass{color:#246448}.fail{color:#973d32}</style></head>
+<body><main><h1>Taxi Shift phone check</h1><p id="status">The test page reached your phone. Checking the browser…</p><p>This page does not load the city or depend on external fonts. Share the results below in the chat; nothing is uploaded automatically.</p>
+<ul id="checks"><li class="pass">Page received from the game server</li><li id="js">JavaScript has not run. Check Chrome’s JavaScript setting if this line stays here.</li></ul>
+<pre id="report">Waiting for JavaScript…</pre><button id="copy" hidden>Copy results</button><a href="./?phone-check=2">Try the game</a><noscript><p>JavaScript is disabled in this browser.</p></noscript></main>
+<script>
+(function(){
+  var report=['Taxi Shift phone check v1','Browser: '+navigator.userAgent,'Screen: '+innerWidth+' x '+innerHeight,'Touch points: '+(navigator.maxTouchPoints||0)],pending=0,failed=false;
+  document.getElementById('js').textContent='JavaScript is running';document.getElementById('js').className='pass';
+  function render(){document.getElementById('report').textContent=report.join('\n');document.getElementById('status').textContent=pending?'Checking files…':failed?'Some checks failed. Please share the results below.':'Basic checks passed. Try the game, then share these results if it still fails.';}
+  function result(label,ok,detail){var row=document.createElement('li');row.className=ok?'pass':'fail';row.textContent=(ok?'PASS: ':'FAIL: ')+label+(detail?' — '+detail:'');document.getElementById('checks').appendChild(row);report.push(row.textContent);if(!ok)failed=true;render();}
+  result('JavaScript modules','noModule' in document.createElement('script'));
+  var canvas=document.createElement('canvas'),gl;
+  try{gl=canvas.getContext('webgl2');result('WebGL 2 graphics',!!gl,gl?gl.getParameter(gl.VERSION):'Chrome could not create a WebGL 2 context');if(gl){gl.clearColor(.1,.6,.3,1);gl.clear(gl.COLOR_BUFFER_BIT);var pixel=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,pixel);result('Graphics render',pixel[1]>100);var lose=gl.getExtension('WEBGL_lose_context');if(lose)lose.loseContext();}}catch(e){result('WebGL 2 graphics',false,e.message);}
+  try{localStorage.setItem('taxi-diagnostic-probe','1');localStorage.removeItem('taxi-diagnostic-probe');result('Progress storage',true);}catch(e){result('Progress storage',false,'Unavailable; driving can still work without saved progress');}
+  function checkFile(path,kind,marker){pending++;var xhr=new XMLHttpRequest();xhr.open('GET',path+'?phone-check='+Date.now());xhr.timeout=20000;var finished=false;function finish(ok,detail){if(finished)return;finished=true;pending--;result(path,ok,detail);}
+    xhr.onload=function(){var text=xhr.responseText||'',type=xhr.getResponseHeader('Content-Type')||'';var ok=xhr.status===200&&type.indexOf(kind)>=0&&text.indexOf(marker)>=0;finish(ok,'HTTP '+xhr.status+', '+type+(text.indexOf('ERR_NGROK')>=0?', ngrok page returned instead of game file':''));};
+    xhr.onerror=function(){finish(false,'Network request failed');};xhr.ontimeout=function(){finish(false,'No response within 20 seconds');};xhr.send();
+  }
+  checkFile('./src/main.js','javascript','createCity');checkFile('./src/mobile-ui.js','javascript','touchDevice');checkFile('./mobile.css','css','mobile-mode');checkFile('./vendor/three.core.js','javascript','Matrix4');
+  document.getElementById('copy').hidden=false;document.getElementById('copy').onclick=function(){var text=report.join('\n');if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){document.getElementById('copy').textContent='Copied';},function(){document.getElementById('copy').textContent='Select the results to copy';});}else{document.getElementById('copy').textContent='Select the results to copy';}};
+  render();
+})();
+</script></body></html>
