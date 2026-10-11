@@ -1,7 +1,7 @@
 import {_electron as electron,expect} from '@playwright/test';
 import {mkdir} from 'node:fs/promises';
 await mkdir('artifacts',{recursive:true});
-const app=await electron.launch({args:['.'],env:{...process.env,TAXI_SMOKE_TEST:'1'}});
+const app=await electron.launch({...(process.argv[2]?{executablePath:process.argv[2]}:{}),args:process.argv[2]?[]:['.'],env:{...process.env,TAXI_SMOKE_TEST:'1'}});
 try{
   const page=await app.firstWindow();const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await app.evaluate(({BrowserWindow})=>{const window=BrowserWindow.getAllWindows()[0];window.show();window.focus();});
